@@ -66,7 +66,7 @@ if let res = response.apis {
 
 ## Documentation
 
-You can find more extensive documentation in the [hosted documentation](https://reimagined-adventure-35135j9.pages.github.io/documentation/speakeasy).
+You can find more extensive documentation in the [hosted documentation](https://speakeasy-api.github.io/speakeasy-client-sdk-swift/documentation/speakeasy).
 
 ## Maturity
 
