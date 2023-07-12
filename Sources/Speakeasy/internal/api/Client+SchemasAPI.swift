@@ -4,7 +4,7 @@
 import Foundation
 
 extension Client: SchemasAPI { 
-    public func deleteSchema(request: Operations.DeleteSchemaRequest) async throws -> Operations.DeleteSchemaResponse {
+    public func deleteSchema(request: Operations.DeleteSchemaRequest) async throws -> Response<Operations.DeleteSchemaResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureDeleteSchemaRequest(with: configuration, request: request)
@@ -12,7 +12,7 @@ extension Client: SchemasAPI {
             handleResponse: handleDeleteSchemaResponse
         )
     }
-    public func downloadSchema(request: Operations.DownloadSchemaRequest) async throws -> Operations.DownloadSchemaResponse {
+    public func downloadSchema(request: Operations.DownloadSchemaRequest) async throws -> Response<Operations.DownloadSchemaResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureDownloadSchemaRequest(with: configuration, request: request)
@@ -20,7 +20,7 @@ extension Client: SchemasAPI {
             handleResponse: handleDownloadSchemaResponse
         )
     }
-    public func downloadSchemaRevision(request: Operations.DownloadSchemaRevisionRequest) async throws -> Operations.DownloadSchemaRevisionResponse {
+    public func downloadSchemaRevision(request: Operations.DownloadSchemaRevisionRequest) async throws -> Response<Operations.DownloadSchemaRevisionResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureDownloadSchemaRevisionRequest(with: configuration, request: request)
@@ -28,7 +28,7 @@ extension Client: SchemasAPI {
             handleResponse: handleDownloadSchemaRevisionResponse
         )
     }
-    public func getSchema(request: Operations.GetSchemaRequest) async throws -> Operations.GetSchemaResponse {
+    public func getSchema(request: Operations.GetSchemaRequest) async throws -> Response<Operations.GetSchemaResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemaRequest(with: configuration, request: request)
@@ -36,7 +36,7 @@ extension Client: SchemasAPI {
             handleResponse: handleGetSchemaResponse
         )
     }
-    public func getSchemaDiff(request: Operations.GetSchemaDiffRequest) async throws -> Operations.GetSchemaDiffResponse {
+    public func getSchemaDiff(request: Operations.GetSchemaDiffRequest) async throws -> Response<Operations.GetSchemaDiffResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemaDiffRequest(with: configuration, request: request)
@@ -44,7 +44,7 @@ extension Client: SchemasAPI {
             handleResponse: handleGetSchemaDiffResponse
         )
     }
-    public func getSchemaRevision(request: Operations.GetSchemaRevisionRequest) async throws -> Operations.GetSchemaRevisionResponse {
+    public func getSchemaRevision(request: Operations.GetSchemaRevisionRequest) async throws -> Response<Operations.GetSchemaRevisionResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemaRevisionRequest(with: configuration, request: request)
@@ -52,7 +52,7 @@ extension Client: SchemasAPI {
             handleResponse: handleGetSchemaRevisionResponse
         )
     }
-    public func getSchemas(request: Operations.GetSchemasRequest) async throws -> Operations.GetSchemasResponse {
+    public func getSchemas(request: Operations.GetSchemasRequest) async throws -> Response<Operations.GetSchemasResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemasRequest(with: configuration, request: request)
@@ -60,7 +60,7 @@ extension Client: SchemasAPI {
             handleResponse: handleGetSchemasResponse
         )
     }
-    public func registerSchema(request: Operations.RegisterSchemaRequest) async throws -> Operations.RegisterSchemaResponse {
+    public func registerSchema(request: Operations.RegisterSchemaRequest) async throws -> Response<Operations.RegisterSchemaResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureRegisterSchemaRequest(with: configuration, request: request)
@@ -136,211 +136,179 @@ private func configureRegisterSchemaRequest(with configuration: URLRequestConfig
 
 // MARK: - Response Handlers
 
-private func handleDeleteSchemaResponse(response: SpeakeasyResponse) throws -> Operations.DeleteSchemaResponse {
-    var responseObject = Operations.DeleteSchemaResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleDeleteSchemaResponse(response: Client.APIResponse) throws -> Operations.DeleteSchemaResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
+    if httpResponse.statusCode == 200 { 
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleDownloadSchemaResponse(response: SpeakeasyResponse) throws -> Operations.DownloadSchemaResponse {
-    var responseObject = Operations.DownloadSchemaResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleDownloadSchemaResponse(response: Client.APIResponse) throws -> Operations.DownloadSchemaResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
-            responseObject.schema = data
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+            return .schema(data)
         }
-        if response.contentType.matchContentType(pattern: "application/x-yaml"), let data = response.data {
-            responseObject.schema = data
+        if httpResponse.contentType.matchContentType(pattern: "application/x-yaml"), let data = response.data {
+            return .schema(data)
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleDownloadSchemaRevisionResponse(response: SpeakeasyResponse) throws -> Operations.DownloadSchemaRevisionResponse {
-    var responseObject = Operations.DownloadSchemaRevisionResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleDownloadSchemaRevisionResponse(response: Client.APIResponse) throws -> Operations.DownloadSchemaRevisionResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
-            responseObject.schema = data
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+            return .schema(data)
         }
-        if response.contentType.matchContentType(pattern: "application/x-yaml"), let data = response.data {
-            responseObject.schema = data
+        if httpResponse.contentType.matchContentType(pattern: "application/x-yaml"), let data = response.data {
+            return .schema(data)
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetSchemaResponse(response: SpeakeasyResponse) throws -> Operations.GetSchemaResponse {
-    var responseObject = Operations.GetSchemaResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetSchemaResponse(response: Client.APIResponse) throws -> Operations.GetSchemaResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.schema = try JSONDecoder().decode(Shared.Schema.self, from: data)
+                return .schema(try JSONDecoder().decode(Shared.Schema.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetSchemaDiffResponse(response: SpeakeasyResponse) throws -> Operations.GetSchemaDiffResponse {
-    var responseObject = Operations.GetSchemaDiffResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetSchemaDiffResponse(response: Client.APIResponse) throws -> Operations.GetSchemaDiffResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.schemaDiff = try JSONDecoder().decode(Shared.SchemaDiff.self, from: data)
+                return .schemaDiff(try JSONDecoder().decode(Shared.SchemaDiff.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetSchemaRevisionResponse(response: SpeakeasyResponse) throws -> Operations.GetSchemaRevisionResponse {
-    var responseObject = Operations.GetSchemaRevisionResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetSchemaRevisionResponse(response: Client.APIResponse) throws -> Operations.GetSchemaRevisionResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.schema = try JSONDecoder().decode(Shared.Schema.self, from: data)
+                return .schema(try JSONDecoder().decode(Shared.Schema.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetSchemasResponse(response: SpeakeasyResponse) throws -> Operations.GetSchemasResponse {
-    var responseObject = Operations.GetSchemasResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetSchemasResponse(response: Client.APIResponse) throws -> Operations.GetSchemasResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.schemata = try JSONDecoder().decode([Shared.Schema].self, from: data)
+                return .schemata(try JSONDecoder().decode([Shared.Schema].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleRegisterSchemaResponse(response: SpeakeasyResponse) throws -> Operations.RegisterSchemaResponse {
-    var responseObject = Operations.RegisterSchemaResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleRegisterSchemaResponse(response: Client.APIResponse) throws -> Operations.RegisterSchemaResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
+    if httpResponse.statusCode == 200 { 
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 

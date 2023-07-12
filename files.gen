@@ -10,10 +10,11 @@ Sources/Speakeasy/Client.swift
 Package.swift
 Sources/Speakeasy/AnyValue.swift
 Sources/Speakeasy/internal/api/Client+SpeakeasyAPI.swift
+Sources/Speakeasy/internal/client/Response.swift
 Sources/Speakeasy/internal/client/Servers.swift
 Sources/Speakeasy/internal/client/URLRequestBuilder.swift
 Sources/Speakeasy/internal/client/URLRequestConfiguration.swift
-Sources/Speakeasy/internal/client/SpeakeasyResponse.swift
+Sources/Speakeasy/internal/extensions/HTTPURLResponse+ContentType.swift
 Sources/Speakeasy/internal/extensions/String+ContentType.swift
 Sources/Speakeasy/internal/extensions/String+ParameterSubstitution.swift
 Sources/Speakeasy/internal/serialization/Form.swift

@@ -78,12 +78,11 @@ public enum SpeakeasyError: Swift.Error {
 
     /// Failure reasons for ``SpeakeasyError/failedToHandleResponse(_:)`` errors
     public enum ResponseHandlingFailureReason {
+        /// Failed to decode response data.
+        case failedToDecodeResponse
         /// Failed to deserialize response JSON.
         case failedToDeserializeJSON(_ error: Swift.Error)
     }
-
-    /// An error internal to the implementation of ``Client`` occurred.
-    case internalError(error: Swift.Error?)
 
     /// Constructing the URL to make a network request failed.
     case failedToConstructRequestURL(_ reason: RequestURLConstructionFailureReason)
@@ -95,12 +94,18 @@ public enum SpeakeasyError: Swift.Error {
     case failedToMakeNetworkRequest(error: Swift.Error)
     /// Handling the response data from an API request failed.
     case failedToHandleResponse(_ reason: ResponseHandlingFailureReason)
+
+    /// An attempt to get response data from a response failed because it was missing.
+    case missingResponseData
+
+    /// An error internal to the implementation of ``Client`` occurred.
+    case internalError(error: Swift.Error?)
+
 }
 
 extension SpeakeasyError: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .internalError: return "The operation couldn't be completed"
         case .failedToConstructRequestURL(let reason):
             return "Failed to construct URL for request: \(reason.localizedDescription)"
         case .failedToSerializeRequestParameters(let reason):
@@ -111,6 +116,10 @@ extension SpeakeasyError: LocalizedError {
             return "Failed to make network request: \(error.localizedDescription)"
         case .failedToHandleResponse(let reason):
             return "Failed to handle response: \(reason.localizedDescription)"
+        case .missingResponseData:
+            return "The response didn't contain the requested data"
+        case .internalError:
+            return "The operation couldn't be completed"
         }
     }
 }
@@ -125,10 +134,12 @@ extension SpeakeasyError {
             return error
         case .failedToHandleResponse(let reason):
             switch reason {
+            case .failedToDecodeResponse:
+                return nil
             case .failedToDeserializeJSON(let error):
                 return error
             }
-        case .failedToConstructRequestURL, .failedToSerializeRequestParameters, .failedToConstructRequest:
+        case .failedToConstructRequestURL, .failedToSerializeRequestParameters, .failedToConstructRequest, .missingResponseData:
             return nil
         }
     }
@@ -176,6 +187,8 @@ extension SpeakeasyError.RequestConstructionFailureReason {
 extension SpeakeasyError.ResponseHandlingFailureReason {
     public var localizedDescription: String {
         switch self {
+        case .failedToDecodeResponse:
+            return "Failed to decode response data"
         case .failedToDeserializeJSON(let error):
             return "Failed to deserialize JSON: \(error.localizedDescription)"
         }

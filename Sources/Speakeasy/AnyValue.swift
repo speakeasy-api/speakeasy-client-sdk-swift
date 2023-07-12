@@ -14,6 +14,10 @@ extension Optional: APIValue where Wrapped: APIValue {}
 extension Array: APIValue where Element: APIValue {}
 extension Dictionary: APIValue where Key == String, Value: APIValue {}
 
+enum APIValueConversionError: Error {
+    case invalidType
+}
+
 /// A type-erased wrapper for passing around ``APIValue`` values.
 public struct AnyValue: Codable {
     // This is a type-erased wrapper which allows us to store Serializable values in collections, as well as handle
@@ -65,7 +69,7 @@ public struct AnyValue: Codable {
     /// Creates an object from any ``APIValue`` value
     public init(_ value: APIValue) throws {
         guard let serializable = value as? Serializable else {
-            throw NSError()
+            throw APIValueConversionError.invalidType
         }
         self.init(serializable: serializable)
     }
@@ -73,7 +77,7 @@ public struct AnyValue: Codable {
     /// Creates an object from an optional value
     public init<T: APIValue>(_ optional: Optional<T>) throws {
         guard let serializable = optional as? Serializable else {
-            throw NSError()
+            throw APIValueConversionError.invalidType
         }
         self.init(serializable: serializable)
     }
@@ -81,7 +85,7 @@ public struct AnyValue: Codable {
     /// Creates an object from an array value
     public init<T: APIValue>(_ array: Array<T>) throws {
         guard let serializable = array as? Serializable else {
-            throw NSError()
+            throw APIValueConversionError.invalidType
         }
         self.init(serializable: serializable)
     }
@@ -89,7 +93,7 @@ public struct AnyValue: Codable {
     /// Creates an object from a dictionary value
     public init<T: APIValue>(_ dictionary: Dictionary<String, T>) throws {
         guard let serializable = dictionary as? Serializable else {
-            throw NSError()
+            throw APIValueConversionError.invalidType
         }
         self.init(serializable: serializable)
     }

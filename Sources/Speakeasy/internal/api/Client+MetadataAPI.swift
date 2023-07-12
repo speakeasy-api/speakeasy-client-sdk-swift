@@ -4,7 +4,7 @@
 import Foundation
 
 extension Client: MetadataAPI { 
-    public func deleteVersionMetadata(request: Operations.DeleteVersionMetadataRequest) async throws -> Operations.DeleteVersionMetadataResponse {
+    public func deleteVersionMetadata(request: Operations.DeleteVersionMetadataRequest) async throws -> Response<Operations.DeleteVersionMetadataResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureDeleteVersionMetadataRequest(with: configuration, request: request)
@@ -12,7 +12,7 @@ extension Client: MetadataAPI {
             handleResponse: handleDeleteVersionMetadataResponse
         )
     }
-    public func getVersionMetadata(request: Operations.GetVersionMetadataRequest) async throws -> Operations.GetVersionMetadataResponse {
+    public func getVersionMetadata(request: Operations.GetVersionMetadataRequest) async throws -> Response<Operations.GetVersionMetadataResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetVersionMetadataRequest(with: configuration, request: request)
@@ -20,7 +20,7 @@ extension Client: MetadataAPI {
             handleResponse: handleGetVersionMetadataResponse
         )
     }
-    public func insertVersionMetadata(request: Operations.InsertVersionMetadataRequest) async throws -> Operations.InsertVersionMetadataResponse {
+    public func insertVersionMetadata(request: Operations.InsertVersionMetadataRequest) async throws -> Response<Operations.InsertVersionMetadataResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureInsertVersionMetadataRequest(with: configuration, request: request)
@@ -60,80 +60,68 @@ private func configureInsertVersionMetadataRequest(with configuration: URLReques
 
 // MARK: - Response Handlers
 
-private func handleDeleteVersionMetadataResponse(response: SpeakeasyResponse) throws -> Operations.DeleteVersionMetadataResponse {
-    var responseObject = Operations.DeleteVersionMetadataResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleDeleteVersionMetadataResponse(response: Client.APIResponse) throws -> Operations.DeleteVersionMetadataResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
+    if httpResponse.statusCode == 200 { 
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetVersionMetadataResponse(response: SpeakeasyResponse) throws -> Operations.GetVersionMetadataResponse {
-    var responseObject = Operations.GetVersionMetadataResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetVersionMetadataResponse(response: Client.APIResponse) throws -> Operations.GetVersionMetadataResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.versionMetadata = try JSONDecoder().decode([Shared.VersionMetadata].self, from: data)
+                return .versionMetadata(try JSONDecoder().decode([Shared.VersionMetadata].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleInsertVersionMetadataResponse(response: SpeakeasyResponse) throws -> Operations.InsertVersionMetadataResponse {
-    var responseObject = Operations.InsertVersionMetadataResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleInsertVersionMetadataResponse(response: Client.APIResponse) throws -> Operations.InsertVersionMetadataResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.versionMetadata = try JSONDecoder().decode(Shared.VersionMetadata.self, from: data)
+                return .versionMetadata(try JSONDecoder().decode(Shared.VersionMetadata.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 

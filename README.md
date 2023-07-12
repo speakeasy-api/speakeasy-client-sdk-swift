@@ -57,8 +57,13 @@ let response = try await client.apis.getApis(
     )
 )
 
-if let res = response.apis {
+switch response.data {
+case .apis(let apis):
     // Handle response
+case .error(let error):
+    // Handle response
+case .empty:
+    // Handle empty response
 }
 
 ```

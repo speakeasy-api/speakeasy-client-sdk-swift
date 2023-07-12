@@ -4,7 +4,7 @@
 import Foundation
 
 extension Client: EmbedsAPI { 
-    public func getEmbedAccessToken(request: Operations.GetEmbedAccessTokenRequest) async throws -> Operations.GetEmbedAccessTokenResponse {
+    public func getEmbedAccessToken(request: Operations.GetEmbedAccessTokenRequest) async throws -> Response<Operations.GetEmbedAccessTokenResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetEmbedAccessTokenRequest(with: configuration, request: request)
@@ -12,7 +12,7 @@ extension Client: EmbedsAPI {
             handleResponse: handleGetEmbedAccessTokenResponse
         )
     }
-    public func getValidEmbedAccessTokens() async throws -> Operations.GetValidEmbedAccessTokensResponse {
+    public func getValidEmbedAccessTokens() async throws -> Response<Operations.GetValidEmbedAccessTokensResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetValidEmbedAccessTokensRequest(with: configuration)
@@ -20,7 +20,7 @@ extension Client: EmbedsAPI {
             handleResponse: handleGetValidEmbedAccessTokensResponse
         )
     }
-    public func revokeEmbedAccessToken(request: Operations.RevokeEmbedAccessTokenRequest) async throws -> Operations.RevokeEmbedAccessTokenResponse {
+    public func revokeEmbedAccessToken(request: Operations.RevokeEmbedAccessTokenRequest) async throws -> Response<Operations.RevokeEmbedAccessTokenResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureRevokeEmbedAccessTokenRequest(with: configuration, request: request)
@@ -54,80 +54,68 @@ private func configureRevokeEmbedAccessTokenRequest(with configuration: URLReque
 
 // MARK: - Response Handlers
 
-private func handleGetEmbedAccessTokenResponse(response: SpeakeasyResponse) throws -> Operations.GetEmbedAccessTokenResponse {
-    var responseObject = Operations.GetEmbedAccessTokenResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetEmbedAccessTokenResponse(response: Client.APIResponse) throws -> Operations.GetEmbedAccessTokenResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.embedAccessTokenResponse = try JSONDecoder().decode(Shared.EmbedAccessTokenResponse.self, from: data)
+                return .embedAccessTokenResponse(try JSONDecoder().decode(Shared.EmbedAccessTokenResponse.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetValidEmbedAccessTokensResponse(response: SpeakeasyResponse) throws -> Operations.GetValidEmbedAccessTokensResponse {
-    var responseObject = Operations.GetValidEmbedAccessTokensResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetValidEmbedAccessTokensResponse(response: Client.APIResponse) throws -> Operations.GetValidEmbedAccessTokensResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.embedTokens = try JSONDecoder().decode([Shared.EmbedToken].self, from: data)
+                return .embedTokens(try JSONDecoder().decode([Shared.EmbedToken].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleRevokeEmbedAccessTokenResponse(response: SpeakeasyResponse) throws -> Operations.RevokeEmbedAccessTokenResponse {
-    var responseObject = Operations.RevokeEmbedAccessTokenResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleRevokeEmbedAccessTokenResponse(response: Client.APIResponse) throws -> Operations.RevokeEmbedAccessTokenResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
+    if httpResponse.statusCode == 200 { 
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 

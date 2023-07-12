@@ -2,6 +2,9 @@
 
 
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 enum URLRequestBuilderError: Swift.Error {
     case internalError

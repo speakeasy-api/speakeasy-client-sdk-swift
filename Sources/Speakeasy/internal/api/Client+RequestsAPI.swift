@@ -4,7 +4,7 @@
 import Foundation
 
 extension Client: RequestsAPI { 
-    public func generateRequestPostmanCollection(request: Operations.GenerateRequestPostmanCollectionRequest) async throws -> Operations.GenerateRequestPostmanCollectionResponse {
+    public func generateRequestPostmanCollection(request: Operations.GenerateRequestPostmanCollectionRequest) async throws -> Response<Operations.GenerateRequestPostmanCollectionResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGenerateRequestPostmanCollectionRequest(with: configuration, request: request)
@@ -12,7 +12,7 @@ extension Client: RequestsAPI {
             handleResponse: handleGenerateRequestPostmanCollectionResponse
         )
     }
-    public func getRequestFromEventLog(request: Operations.GetRequestFromEventLogRequest) async throws -> Operations.GetRequestFromEventLogResponse {
+    public func getRequestFromEventLog(request: Operations.GetRequestFromEventLogRequest) async throws -> Response<Operations.GetRequestFromEventLogResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetRequestFromEventLogRequest(with: configuration, request: request)
@@ -20,7 +20,7 @@ extension Client: RequestsAPI {
             handleResponse: handleGetRequestFromEventLogResponse
         )
     }
-    public func queryEventLog(request: Operations.QueryEventLogRequest) async throws -> Operations.QueryEventLogResponse {
+    public func queryEventLog(request: Operations.QueryEventLogRequest) async throws -> Response<Operations.QueryEventLogResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureQueryEventLogRequest(with: configuration, request: request)
@@ -55,83 +55,71 @@ private func configureQueryEventLogRequest(with configuration: URLRequestConfigu
 
 // MARK: - Response Handlers
 
-private func handleGenerateRequestPostmanCollectionResponse(response: SpeakeasyResponse) throws -> Operations.GenerateRequestPostmanCollectionResponse {
-    var responseObject = Operations.GenerateRequestPostmanCollectionResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGenerateRequestPostmanCollectionResponse(response: Client.APIResponse) throws -> Operations.GenerateRequestPostmanCollectionResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/octet-stream"), let data = response.data {
-            responseObject.postmanCollection = data
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/octet-stream"), let data = response.data {
+            return .postmanCollection(data)
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetRequestFromEventLogResponse(response: SpeakeasyResponse) throws -> Operations.GetRequestFromEventLogResponse {
-    var responseObject = Operations.GetRequestFromEventLogResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetRequestFromEventLogResponse(response: Client.APIResponse) throws -> Operations.GetRequestFromEventLogResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.unboundedRequest = try JSONDecoder().decode(Shared.UnboundedRequest.self, from: data)
+                return .unboundedRequest(try JSONDecoder().decode(Shared.UnboundedRequest.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleQueryEventLogResponse(response: SpeakeasyResponse) throws -> Operations.QueryEventLogResponse {
-    var responseObject = Operations.QueryEventLogResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleQueryEventLogResponse(response: Client.APIResponse) throws -> Operations.QueryEventLogResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.boundedRequests = try JSONDecoder().decode([Shared.BoundedRequest].self, from: data)
+                return .boundedRequests(try JSONDecoder().decode([Shared.BoundedRequest].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 

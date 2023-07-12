@@ -31,7 +31,7 @@ public protocol SpeakeasyAPI {
     /// 
     /// - Returns: A ``Operations/ValidateApiKeyResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func validateApiKey() async throws -> Operations.ValidateApiKeyResponse
+    func validateApiKey() async throws -> Response<Operations.ValidateApiKeyResponse>
 
     // MARK: - Scoped APIs
     /// REST APIs for managing ApiEndpoint entities
@@ -73,7 +73,7 @@ public protocol APIEndpointsAPI {
     /// - Parameter request: A ``Operations/DeleteApiEndpointRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/DeleteApiEndpointResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func deleteApiEndpoint(request: Operations.DeleteApiEndpointRequest) async throws -> Operations.DeleteApiEndpointResponse
+    func deleteApiEndpoint(request: Operations.DeleteApiEndpointRequest) async throws -> Response<Operations.DeleteApiEndpointResponse>
 
     /// Find an ApiEndpoint via its displayName (set by operationId from a registered OpenAPI schema).
     /// This is useful for finding the ID of an ApiEndpoint to use in the /v1/apis/{apiID}/version/{versionID}/api_endpoints/{apiEndpointID} endpoints.
@@ -81,7 +81,7 @@ public protocol APIEndpointsAPI {
     /// - Parameter request: A ``Operations/FindApiEndpointRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/FindApiEndpointResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func findApiEndpoint(request: Operations.FindApiEndpointRequest) async throws -> Operations.FindApiEndpointResponse
+    func findApiEndpoint(request: Operations.FindApiEndpointRequest) async throws -> Response<Operations.FindApiEndpointResponse>
 
     /// This endpoint will generate a new operation in any registered OpenAPI document if the operation does not already exist in the document.
     /// Returns the original document and the newly generated document allowing a diff to be performed to see what has changed.
@@ -89,42 +89,42 @@ public protocol APIEndpointsAPI {
     /// - Parameter request: A ``Operations/GenerateOpenApiSpecForApiEndpointRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GenerateOpenApiSpecForApiEndpointResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func generateOpenApiSpecForApiEndpoint(request: Operations.GenerateOpenApiSpecForApiEndpointRequest) async throws -> Operations.GenerateOpenApiSpecForApiEndpointResponse
+    func generateOpenApiSpecForApiEndpoint(request: Operations.GenerateOpenApiSpecForApiEndpointRequest) async throws -> Response<Operations.GenerateOpenApiSpecForApiEndpointResponse>
 
     /// Generates a postman collection that allows the endpoint to be called from postman variables produced for any path/query/header parameters included in the OpenAPI document.
     /// 
     /// - Parameter request: A ``Operations/GeneratePostmanCollectionForApiEndpointRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GeneratePostmanCollectionForApiEndpointResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func generatePostmanCollectionForApiEndpoint(request: Operations.GeneratePostmanCollectionForApiEndpointRequest) async throws -> Operations.GeneratePostmanCollectionForApiEndpointResponse
+    func generatePostmanCollectionForApiEndpoint(request: Operations.GeneratePostmanCollectionForApiEndpointRequest) async throws -> Response<Operations.GeneratePostmanCollectionForApiEndpointResponse>
 
     /// Get all Api endpoints for a particular apiID.
     /// 
     /// - Parameter request: A ``Operations/GetAllApiEndpointsRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetAllApiEndpointsResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getAllApiEndpoints(request: Operations.GetAllApiEndpointsRequest) async throws -> Operations.GetAllApiEndpointsResponse
+    func getAllApiEndpoints(request: Operations.GetAllApiEndpointsRequest) async throws -> Response<Operations.GetAllApiEndpointsResponse>
 
     /// Get all ApiEndpoints for a particular apiID and versionID.
     /// 
     /// - Parameter request: A ``Operations/GetAllForVersionApiEndpointsRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetAllForVersionApiEndpointsResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getAllForVersionApiEndpoints(request: Operations.GetAllForVersionApiEndpointsRequest) async throws -> Operations.GetAllForVersionApiEndpointsResponse
+    func getAllForVersionApiEndpoints(request: Operations.GetAllForVersionApiEndpointsRequest) async throws -> Response<Operations.GetAllForVersionApiEndpointsResponse>
 
     /// Get an ApiEndpoint.
     /// 
     /// - Parameter request: A ``Operations/GetApiEndpointRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetApiEndpointResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getApiEndpoint(request: Operations.GetApiEndpointRequest) async throws -> Operations.GetApiEndpointResponse
+    func getApiEndpoint(request: Operations.GetApiEndpointRequest) async throws -> Response<Operations.GetApiEndpointResponse>
 
     /// Upsert an ApiEndpoint. If the ApiEndpoint does not exist it will be created, otherwise it will be updated.
     /// 
     /// - Parameter request: A ``Operations/UpsertApiEndpointRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/UpsertApiEndpointResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func upsertApiEndpoint(request: Operations.UpsertApiEndpointRequest) async throws -> Operations.UpsertApiEndpointResponse
+    func upsertApiEndpoint(request: Operations.UpsertApiEndpointRequest) async throws -> Response<Operations.UpsertApiEndpointResponse>
 }
 
 // MARK: - ApisAPI
@@ -148,7 +148,7 @@ public protocol ApisAPI {
     /// - Parameter request: A ``Operations/DeleteApiRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/DeleteApiResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func deleteApi(request: Operations.DeleteApiRequest) async throws -> Operations.DeleteApiResponse
+    func deleteApi(request: Operations.DeleteApiRequest) async throws -> Response<Operations.DeleteApiResponse>
 
     /// This endpoint will generate any missing operations in any registered OpenAPI document if the operation does not already exist in the document.
     /// Returns the original document and the newly generated document allowing a diff to be performed to see what has changed.
@@ -156,14 +156,14 @@ public protocol ApisAPI {
     /// - Parameter request: A ``Operations/GenerateOpenApiSpecRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GenerateOpenApiSpecResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func generateOpenApiSpec(request: Operations.GenerateOpenApiSpecRequest) async throws -> Operations.GenerateOpenApiSpecResponse
+    func generateOpenApiSpec(request: Operations.GenerateOpenApiSpecRequest) async throws -> Response<Operations.GenerateOpenApiSpecResponse>
 
     /// Generates a postman collection containing all endpoints for a particular API. Includes variables produced for any path/query/header parameters included in the OpenAPI document.
     /// 
     /// - Parameter request: A ``Operations/GeneratePostmanCollectionRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GeneratePostmanCollectionResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func generatePostmanCollection(request: Operations.GeneratePostmanCollectionRequest) async throws -> Operations.GeneratePostmanCollectionResponse
+    func generatePostmanCollection(request: Operations.GeneratePostmanCollectionRequest) async throws -> Response<Operations.GeneratePostmanCollectionResponse>
 
     /// Get all Api versions for a particular ApiEndpoint.
     /// Supports filtering the versions based on metadata attributes.
@@ -171,7 +171,7 @@ public protocol ApisAPI {
     /// - Parameter request: A ``Operations/GetAllApiVersionsRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetAllApiVersionsResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getAllApiVersions(request: Operations.GetAllApiVersionsRequest) async throws -> Operations.GetAllApiVersionsResponse
+    func getAllApiVersions(request: Operations.GetAllApiVersionsRequest) async throws -> Response<Operations.GetAllApiVersionsResponse>
 
     /// Get a list of all Apis and their versions for a given workspace.
     /// Supports filtering the APIs based on metadata attributes.
@@ -179,7 +179,7 @@ public protocol ApisAPI {
     /// - Parameter request: A ``Operations/GetApisRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetApisResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getApis(request: Operations.GetApisRequest) async throws -> Operations.GetApisResponse
+    func getApis(request: Operations.GetApisRequest) async throws -> Response<Operations.GetApisResponse>
 
     /// Upsert an Api. If the Api does not exist, it will be created.
     /// If the Api exists, it will be updated.
@@ -187,7 +187,7 @@ public protocol ApisAPI {
     /// - Parameter request: A ``Operations/UpsertApiRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/UpsertApiResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func upsertApi(request: Operations.UpsertApiRequest) async throws -> Operations.UpsertApiResponse
+    func upsertApi(request: Operations.UpsertApiRequest) async throws -> Response<Operations.UpsertApiResponse>
 }
 
 // MARK: - EmbedsAPI
@@ -209,20 +209,20 @@ public protocol EmbedsAPI {
     /// - Parameter request: A ``Operations/GetEmbedAccessTokenRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetEmbedAccessTokenResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getEmbedAccessToken(request: Operations.GetEmbedAccessTokenRequest) async throws -> Operations.GetEmbedAccessTokenResponse
+    func getEmbedAccessToken(request: Operations.GetEmbedAccessTokenRequest) async throws -> Response<Operations.GetEmbedAccessTokenResponse>
 
     /// Get all valid embed access tokens for the current workspace.
     /// 
     /// - Returns: A ``Operations/GetValidEmbedAccessTokensResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getValidEmbedAccessTokens() async throws -> Operations.GetValidEmbedAccessTokensResponse
+    func getValidEmbedAccessTokens() async throws -> Response<Operations.GetValidEmbedAccessTokensResponse>
 
     /// Revoke an embed access EmbedToken.
     /// 
     /// - Parameter request: A ``Operations/RevokeEmbedAccessTokenRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/RevokeEmbedAccessTokenResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func revokeEmbedAccessToken(request: Operations.RevokeEmbedAccessTokenRequest) async throws -> Operations.RevokeEmbedAccessTokenResponse
+    func revokeEmbedAccessToken(request: Operations.RevokeEmbedAccessTokenRequest) async throws -> Response<Operations.RevokeEmbedAccessTokenResponse>
 }
 
 // MARK: - MetadataAPI
@@ -243,21 +243,21 @@ public protocol MetadataAPI {
     /// - Parameter request: A ``Operations/DeleteVersionMetadataRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/DeleteVersionMetadataResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func deleteVersionMetadata(request: Operations.DeleteVersionMetadataRequest) async throws -> Operations.DeleteVersionMetadataResponse
+    func deleteVersionMetadata(request: Operations.DeleteVersionMetadataRequest) async throws -> Response<Operations.DeleteVersionMetadataResponse>
 
     /// Get all metadata for a particular apiID and versionID.
     /// 
     /// - Parameter request: A ``Operations/GetVersionMetadataRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetVersionMetadataResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getVersionMetadata(request: Operations.GetVersionMetadataRequest) async throws -> Operations.GetVersionMetadataResponse
+    func getVersionMetadata(request: Operations.GetVersionMetadataRequest) async throws -> Response<Operations.GetVersionMetadataResponse>
 
     /// Insert metadata for a particular apiID and versionID.
     /// 
     /// - Parameter request: A ``Operations/InsertVersionMetadataRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/InsertVersionMetadataResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func insertVersionMetadata(request: Operations.InsertVersionMetadataRequest) async throws -> Operations.InsertVersionMetadataResponse
+    func insertVersionMetadata(request: Operations.InsertVersionMetadataRequest) async throws -> Response<Operations.InsertVersionMetadataResponse>
 }
 
 // MARK: - PluginsAPI
@@ -277,21 +277,21 @@ public protocol PluginsAPI {
     /// 
     /// - Returns: A ``Operations/GetPluginsResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getPlugins() async throws -> Operations.GetPluginsResponse
+    func getPlugins() async throws -> Response<Operations.GetPluginsResponse>
 
     /// Run a plugin
     /// 
     /// - Parameter request: A ``Operations/RunPluginRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/RunPluginResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func runPlugin(request: Operations.RunPluginRequest) async throws -> Operations.RunPluginResponse
+    func runPlugin(request: Operations.RunPluginRequest) async throws -> Response<Operations.RunPluginResponse>
 
     /// Upsert a plugin
     /// 
     /// - Parameter request: A ``Shared/Plugin`` object describing the input to the API operation
     /// - Returns: A ``Operations/UpsertPluginResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func upsertPlugin(request: Shared.Plugin) async throws -> Operations.UpsertPluginResponse
+    func upsertPlugin(request: Shared.Plugin) async throws -> Response<Operations.UpsertPluginResponse>
 }
 
 // MARK: - RequestsAPI
@@ -313,14 +313,14 @@ public protocol RequestsAPI {
     /// - Parameter request: A ``Operations/GenerateRequestPostmanCollectionRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GenerateRequestPostmanCollectionResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func generateRequestPostmanCollection(request: Operations.GenerateRequestPostmanCollectionRequest) async throws -> Operations.GenerateRequestPostmanCollectionResponse
+    func generateRequestPostmanCollection(request: Operations.GenerateRequestPostmanCollectionRequest) async throws -> Response<Operations.GenerateRequestPostmanCollectionResponse>
 
     /// Get information about a particular request.
     /// 
     /// - Parameter request: A ``Operations/GetRequestFromEventLogRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetRequestFromEventLogResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getRequestFromEventLog(request: Operations.GetRequestFromEventLogRequest) async throws -> Operations.GetRequestFromEventLogResponse
+    func getRequestFromEventLog(request: Operations.GetRequestFromEventLogRequest) async throws -> Response<Operations.GetRequestFromEventLogResponse>
 
     /// Supports retrieving a list of request captured by the SDK for this workspace.
     /// Allows the filtering of requests on a number of criteria such as ApiID, VersionID, Path, Method, etc.
@@ -328,7 +328,7 @@ public protocol RequestsAPI {
     /// - Parameter request: A ``Operations/QueryEventLogRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/QueryEventLogResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func queryEventLog(request: Operations.QueryEventLogRequest) async throws -> Operations.QueryEventLogResponse
+    func queryEventLog(request: Operations.QueryEventLogRequest) async throws -> Response<Operations.QueryEventLogResponse>
 }
 
 // MARK: - SchemasAPI
@@ -354,21 +354,21 @@ public protocol SchemasAPI {
     /// - Parameter request: A ``Operations/DeleteSchemaRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/DeleteSchemaResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func deleteSchema(request: Operations.DeleteSchemaRequest) async throws -> Operations.DeleteSchemaResponse
+    func deleteSchema(request: Operations.DeleteSchemaRequest) async throws -> Response<Operations.DeleteSchemaResponse>
 
     /// Download the latest schema for a particular apiID.
     /// 
     /// - Parameter request: A ``Operations/DownloadSchemaRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/DownloadSchemaResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func downloadSchema(request: Operations.DownloadSchemaRequest) async throws -> Operations.DownloadSchemaResponse
+    func downloadSchema(request: Operations.DownloadSchemaRequest) async throws -> Response<Operations.DownloadSchemaResponse>
 
     /// Download a particular schema revision for an Api.
     /// 
     /// - Parameter request: A ``Operations/DownloadSchemaRevisionRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/DownloadSchemaRevisionResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func downloadSchemaRevision(request: Operations.DownloadSchemaRevisionRequest) async throws -> Operations.DownloadSchemaRevisionResponse
+    func downloadSchemaRevision(request: Operations.DownloadSchemaRevisionRequest) async throws -> Response<Operations.DownloadSchemaRevisionResponse>
 
     /// Returns information about the last uploaded schema for a particular API version. 
     /// This won't include the schema itself, that can be retrieved via the downloadSchema operation.
@@ -376,14 +376,14 @@ public protocol SchemasAPI {
     /// - Parameter request: A ``Operations/GetSchemaRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetSchemaResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getSchema(request: Operations.GetSchemaRequest) async throws -> Operations.GetSchemaResponse
+    func getSchema(request: Operations.GetSchemaRequest) async throws -> Response<Operations.GetSchemaResponse>
 
     /// Get a diff of two schema revisions for an Api.
     /// 
     /// - Parameter request: A ``Operations/GetSchemaDiffRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetSchemaDiffResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getSchemaDiff(request: Operations.GetSchemaDiffRequest) async throws -> Operations.GetSchemaDiffResponse
+    func getSchemaDiff(request: Operations.GetSchemaDiffRequest) async throws -> Response<Operations.GetSchemaDiffResponse>
 
     /// Returns information about the last uploaded schema for a particular schema revision. 
     /// This won't include the schema itself, that can be retrieved via the downloadSchema operation.
@@ -391,7 +391,7 @@ public protocol SchemasAPI {
     /// - Parameter request: A ``Operations/GetSchemaRevisionRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetSchemaRevisionResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getSchemaRevision(request: Operations.GetSchemaRevisionRequest) async throws -> Operations.GetSchemaRevisionResponse
+    func getSchemaRevision(request: Operations.GetSchemaRevisionRequest) async throws -> Response<Operations.GetSchemaRevisionResponse>
 
     /// Returns information the schemas associated with a particular apiID. 
     /// This won't include the schemas themselves, they can be retrieved via the downloadSchema operation.
@@ -399,7 +399,7 @@ public protocol SchemasAPI {
     /// - Parameter request: A ``Operations/GetSchemasRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/GetSchemasResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func getSchemas(request: Operations.GetSchemasRequest) async throws -> Operations.GetSchemasResponse
+    func getSchemas(request: Operations.GetSchemasRequest) async throws -> Response<Operations.GetSchemasResponse>
 
     /// Allows uploading a schema for a particular API version.
     /// This will be used to populate ApiEndpoints and used as a base for any schema generation if present.
@@ -407,5 +407,5 @@ public protocol SchemasAPI {
     /// - Parameter request: A ``Operations/RegisterSchemaRequest`` object describing the input to the API operation
     /// - Returns: A ``Operations/RegisterSchemaResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    func registerSchema(request: Operations.RegisterSchemaRequest) async throws -> Operations.RegisterSchemaResponse
+    func registerSchema(request: Operations.RegisterSchemaRequest) async throws -> Response<Operations.RegisterSchemaResponse>
 }

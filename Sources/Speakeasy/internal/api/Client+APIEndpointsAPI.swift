@@ -4,7 +4,7 @@
 import Foundation
 
 extension Client: APIEndpointsAPI { 
-    public func deleteApiEndpoint(request: Operations.DeleteApiEndpointRequest) async throws -> Operations.DeleteApiEndpointResponse {
+    public func deleteApiEndpoint(request: Operations.DeleteApiEndpointRequest) async throws -> Response<Operations.DeleteApiEndpointResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureDeleteApiEndpointRequest(with: configuration, request: request)
@@ -12,7 +12,7 @@ extension Client: APIEndpointsAPI {
             handleResponse: handleDeleteApiEndpointResponse
         )
     }
-    public func findApiEndpoint(request: Operations.FindApiEndpointRequest) async throws -> Operations.FindApiEndpointResponse {
+    public func findApiEndpoint(request: Operations.FindApiEndpointRequest) async throws -> Response<Operations.FindApiEndpointResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureFindApiEndpointRequest(with: configuration, request: request)
@@ -20,7 +20,7 @@ extension Client: APIEndpointsAPI {
             handleResponse: handleFindApiEndpointResponse
         )
     }
-    public func generateOpenApiSpecForApiEndpoint(request: Operations.GenerateOpenApiSpecForApiEndpointRequest) async throws -> Operations.GenerateOpenApiSpecForApiEndpointResponse {
+    public func generateOpenApiSpecForApiEndpoint(request: Operations.GenerateOpenApiSpecForApiEndpointRequest) async throws -> Response<Operations.GenerateOpenApiSpecForApiEndpointResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGenerateOpenApiSpecForApiEndpointRequest(with: configuration, request: request)
@@ -28,7 +28,7 @@ extension Client: APIEndpointsAPI {
             handleResponse: handleGenerateOpenApiSpecForApiEndpointResponse
         )
     }
-    public func generatePostmanCollectionForApiEndpoint(request: Operations.GeneratePostmanCollectionForApiEndpointRequest) async throws -> Operations.GeneratePostmanCollectionForApiEndpointResponse {
+    public func generatePostmanCollectionForApiEndpoint(request: Operations.GeneratePostmanCollectionForApiEndpointRequest) async throws -> Response<Operations.GeneratePostmanCollectionForApiEndpointResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGeneratePostmanCollectionForApiEndpointRequest(with: configuration, request: request)
@@ -36,7 +36,7 @@ extension Client: APIEndpointsAPI {
             handleResponse: handleGeneratePostmanCollectionForApiEndpointResponse
         )
     }
-    public func getAllApiEndpoints(request: Operations.GetAllApiEndpointsRequest) async throws -> Operations.GetAllApiEndpointsResponse {
+    public func getAllApiEndpoints(request: Operations.GetAllApiEndpointsRequest) async throws -> Response<Operations.GetAllApiEndpointsResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetAllApiEndpointsRequest(with: configuration, request: request)
@@ -44,7 +44,7 @@ extension Client: APIEndpointsAPI {
             handleResponse: handleGetAllApiEndpointsResponse
         )
     }
-    public func getAllForVersionApiEndpoints(request: Operations.GetAllForVersionApiEndpointsRequest) async throws -> Operations.GetAllForVersionApiEndpointsResponse {
+    public func getAllForVersionApiEndpoints(request: Operations.GetAllForVersionApiEndpointsRequest) async throws -> Response<Operations.GetAllForVersionApiEndpointsResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetAllForVersionApiEndpointsRequest(with: configuration, request: request)
@@ -52,7 +52,7 @@ extension Client: APIEndpointsAPI {
             handleResponse: handleGetAllForVersionApiEndpointsResponse
         )
     }
-    public func getApiEndpoint(request: Operations.GetApiEndpointRequest) async throws -> Operations.GetApiEndpointResponse {
+    public func getApiEndpoint(request: Operations.GetApiEndpointRequest) async throws -> Response<Operations.GetApiEndpointResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetApiEndpointRequest(with: configuration, request: request)
@@ -60,7 +60,7 @@ extension Client: APIEndpointsAPI {
             handleResponse: handleGetApiEndpointResponse
         )
     }
-    public func upsertApiEndpoint(request: Operations.UpsertApiEndpointRequest) async throws -> Operations.UpsertApiEndpointResponse {
+    public func upsertApiEndpoint(request: Operations.UpsertApiEndpointRequest) async throws -> Response<Operations.UpsertApiEndpointResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureUpsertApiEndpointRequest(with: configuration, request: request)
@@ -135,216 +135,184 @@ private func configureUpsertApiEndpointRequest(with configuration: URLRequestCon
 
 // MARK: - Response Handlers
 
-private func handleDeleteApiEndpointResponse(response: SpeakeasyResponse) throws -> Operations.DeleteApiEndpointResponse {
-    var responseObject = Operations.DeleteApiEndpointResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleDeleteApiEndpointResponse(response: Client.APIResponse) throws -> Operations.DeleteApiEndpointResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
+    if httpResponse.statusCode == 200 { 
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleFindApiEndpointResponse(response: SpeakeasyResponse) throws -> Operations.FindApiEndpointResponse {
-    var responseObject = Operations.FindApiEndpointResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleFindApiEndpointResponse(response: Client.APIResponse) throws -> Operations.FindApiEndpointResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.apiEndpoint = try JSONDecoder().decode(Shared.ApiEndpoint.self, from: data)
+                return .apiEndpoint(try JSONDecoder().decode(Shared.ApiEndpoint.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGenerateOpenApiSpecForApiEndpointResponse(response: SpeakeasyResponse) throws -> Operations.GenerateOpenApiSpecForApiEndpointResponse {
-    var responseObject = Operations.GenerateOpenApiSpecForApiEndpointResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGenerateOpenApiSpecForApiEndpointResponse(response: Client.APIResponse) throws -> Operations.GenerateOpenApiSpecForApiEndpointResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.generateOpenApiSpecDiff = try JSONDecoder().decode(Shared.GenerateOpenApiSpecDiff.self, from: data)
+                return .generateOpenApiSpecDiff(try JSONDecoder().decode(Shared.GenerateOpenApiSpecDiff.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGeneratePostmanCollectionForApiEndpointResponse(response: SpeakeasyResponse) throws -> Operations.GeneratePostmanCollectionForApiEndpointResponse {
-    var responseObject = Operations.GeneratePostmanCollectionForApiEndpointResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGeneratePostmanCollectionForApiEndpointResponse(response: Client.APIResponse) throws -> Operations.GeneratePostmanCollectionForApiEndpointResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/octet-stream"), let data = response.data {
-            responseObject.postmanCollection = data
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/octet-stream"), let data = response.data {
+            return .postmanCollection(data)
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetAllApiEndpointsResponse(response: SpeakeasyResponse) throws -> Operations.GetAllApiEndpointsResponse {
-    var responseObject = Operations.GetAllApiEndpointsResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetAllApiEndpointsResponse(response: Client.APIResponse) throws -> Operations.GetAllApiEndpointsResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.apiEndpoints = try JSONDecoder().decode([Shared.ApiEndpoint].self, from: data)
+                return .apiEndpoints(try JSONDecoder().decode([Shared.ApiEndpoint].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetAllForVersionApiEndpointsResponse(response: SpeakeasyResponse) throws -> Operations.GetAllForVersionApiEndpointsResponse {
-    var responseObject = Operations.GetAllForVersionApiEndpointsResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetAllForVersionApiEndpointsResponse(response: Client.APIResponse) throws -> Operations.GetAllForVersionApiEndpointsResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.apiEndpoints = try JSONDecoder().decode([Shared.ApiEndpoint].self, from: data)
+                return .apiEndpoints(try JSONDecoder().decode([Shared.ApiEndpoint].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleGetApiEndpointResponse(response: SpeakeasyResponse) throws -> Operations.GetApiEndpointResponse {
-    var responseObject = Operations.GetApiEndpointResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetApiEndpointResponse(response: Client.APIResponse) throws -> Operations.GetApiEndpointResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.apiEndpoint = try JSONDecoder().decode(Shared.ApiEndpoint.self, from: data)
+                return .apiEndpoint(try JSONDecoder().decode(Shared.ApiEndpoint.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleUpsertApiEndpointResponse(response: SpeakeasyResponse) throws -> Operations.UpsertApiEndpointResponse {
-    var responseObject = Operations.UpsertApiEndpointResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleUpsertApiEndpointResponse(response: Client.APIResponse) throws -> Operations.UpsertApiEndpointResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.apiEndpoint = try JSONDecoder().decode(Shared.ApiEndpoint.self, from: data)
+                return .apiEndpoint(try JSONDecoder().decode(Shared.ApiEndpoint.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 

@@ -4,7 +4,7 @@
 import Foundation
 
 extension Client: PluginsAPI { 
-    public func getPlugins() async throws -> Operations.GetPluginsResponse {
+    public func getPlugins() async throws -> Response<Operations.GetPluginsResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureGetPluginsRequest(with: configuration)
@@ -12,7 +12,7 @@ extension Client: PluginsAPI {
             handleResponse: handleGetPluginsResponse
         )
     }
-    public func runPlugin(request: Operations.RunPluginRequest) async throws -> Operations.RunPluginResponse {
+    public func runPlugin(request: Operations.RunPluginRequest) async throws -> Response<Operations.RunPluginResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureRunPluginRequest(with: configuration, request: request)
@@ -20,7 +20,7 @@ extension Client: PluginsAPI {
             handleResponse: handleRunPluginResponse
         )
     }
-    public func upsertPlugin(request: Shared.Plugin) async throws -> Operations.UpsertPluginResponse {
+    public func upsertPlugin(request: Shared.Plugin) async throws -> Response<Operations.UpsertPluginResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureUpsertPluginRequest(with: configuration, request: request)
@@ -59,87 +59,75 @@ private func configureUpsertPluginRequest(with configuration: URLRequestConfigur
 
 // MARK: - Response Handlers
 
-private func handleGetPluginsResponse(response: SpeakeasyResponse) throws -> Operations.GetPluginsResponse {
-    var responseObject = Operations.GetPluginsResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleGetPluginsResponse(response: Client.APIResponse) throws -> Operations.GetPluginsResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.plugins = try JSONDecoder().decode([Shared.Plugin].self, from: data)
+                return .plugins(try JSONDecoder().decode([Shared.Plugin].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleRunPluginResponse(response: SpeakeasyResponse) throws -> Operations.RunPluginResponse {
-    var responseObject = Operations.RunPluginResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleRunPluginResponse(response: Client.APIResponse) throws -> Operations.RunPluginResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.boundedRequests = try JSONDecoder().decode([Shared.BoundedRequest].self, from: data)
+                return .boundedRequests(try JSONDecoder().decode([Shared.BoundedRequest].self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
-private func handleUpsertPluginResponse(response: SpeakeasyResponse) throws -> Operations.UpsertPluginResponse {
-    var responseObject = Operations.UpsertPluginResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleUpsertPluginResponse(response: Client.APIResponse) throws -> Operations.UpsertPluginResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+    if httpResponse.statusCode == 200 { 
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.plugin = try JSONDecoder().decode(Shared.Plugin.self, from: data)
+                return .plugin(try JSONDecoder().decode(Shared.Plugin.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 

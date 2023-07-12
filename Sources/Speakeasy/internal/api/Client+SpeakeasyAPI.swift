@@ -7,7 +7,7 @@ extension Client: SpeakeasyAPI {
     /// 
     /// - Returns: A ``Operations/ValidateApiKeyResponse`` object describing the result of the API operation
     /// - Throws: An error of type ``SpeakeasyError``
-    public func validateApiKey() async throws -> Operations.ValidateApiKeyResponse {
+    public func validateApiKey() async throws -> Response<Operations.ValidateApiKeyResponse> {
         return try await makeRequest(
             configureRequest: { configuration in
                 try configureValidateApiKeyRequest(with: configuration)
@@ -49,24 +49,20 @@ private func configureValidateApiKeyRequest(with configuration: URLRequestConfig
 
 // MARK: - Response Handlers
 
-private func handleValidateApiKeyResponse(response: SpeakeasyResponse) throws -> Operations.ValidateApiKeyResponse {
-    var responseObject = Operations.ValidateApiKeyResponse(
-        contentType: response.contentType,
-        statusCode: response.statusCode,
-        rawResponse: response.httpResponse
-    )
+private func handleValidateApiKeyResponse(response: Client.APIResponse) throws -> Operations.ValidateApiKeyResponse {
+    let httpResponse = response.httpResponse
     
-    if responseObject.statusCode == 200 { 
+    if httpResponse.statusCode == 200 { 
     } else { 
-        if response.contentType.matchContentType(pattern: "application/json"), let data = response.data {
+        if httpResponse.contentType.matchContentType(pattern: "application/json"), let data = response.data {
             do {
-                responseObject.error = try JSONDecoder().decode(Shared.Error.self, from: data)
+                return .error(try JSONDecoder().decode(Shared.Error.self, from: data))
             } catch {
                 throw ResponseHandlerError.failedToDecodeJSON(error)
             }
         }
     }
 
-    return responseObject
+    return .empty
 }
 
