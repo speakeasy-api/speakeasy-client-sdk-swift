@@ -9,6 +9,7 @@ Speakeasy API: The Speakeasy API allows teams to manage common operations with t
 
 The SDK supports iOS 13 and later.
 
+
 <!-- Start SDK Installation -->
 ## Installation
 
@@ -24,9 +25,10 @@ dependencies: [
 
 <!-- End SDK Installation -->
 
-## Usage
-
+## SDK Example Usage
 <!-- Start SDK Example Usage -->
+
+
 ```swift
 import Foundation
 import Speakeasy
@@ -60,28 +62,35 @@ let response = try await client.apis.getApis(
 switch response.data {
 case .apis(let apis):
     // Handle response
+    break
 case .error(let error):
     // Handle response
+    break
 case .empty:
     // Handle empty response
+    break
 }
 
 ```
 <!-- End SDK Example Usage -->
 
+<!-- Start SDK Available Operations -->
+
 ## Documentation
 
-You can find more extensive documentation in the [hosted documentation](https://speakeasy-api.github.io/speakeasy-client-sdk-swift/documentation/speakeasy).
+You can find more extensive documentation in the [hosted documentation](https://speakeasy-api.github.io/speakeasy-client-sdk-swift-2/documentation/speakeasy).
 
-## Maturity
+<!-- End SDK Available Operations -->
+
+### Maturity
 
 This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning usage
 to a specific package version. This way, you can install the same version each time without breaking changes unless you are intentionally
 looking for the latest version.
 
-## Contributions
+### Contributions
 
 While we value open-source contributions to this SDK, this library is generated programmatically.
-Feel free to open a PR or a GitHub issue as a proof of concept and we'll do our best to include it in a future release!
+Feel free to open a PR or a Github issue as a proof of concept and we'll do our best to include it in a future release!
 
 ### SDK Created by [Speakeasy](https://docs.speakeasyapi.dev/docs/using-speakeasy/client-sdks)

@@ -18,9 +18,9 @@ public struct Shared {
 
     /// The `Status` type defines a logical error model
     public struct Error {
-            /// A developer-facing error message.
+        /// A developer-facing error message.
         public let message: String
-            /// The HTTP status code
+        /// The HTTP status code
         public let statusCode: Int
 
 
@@ -37,17 +37,17 @@ public struct Shared {
 
     /// An ApiEndpoint is a description of an Endpoint for an API.
     public struct ApiEndpointInput {
-            /// The ID of this ApiEndpoint. This is a hash of the method and path.
+        /// The ID of this ApiEndpoint. This is a hash of the method and path.
         public let apiEndpointId: String
-            /// A detailed description of the ApiEndpoint.
+        /// A detailed description of the ApiEndpoint.
         public let description: String
-            /// A human-readable name for the ApiEndpoint.
+        /// A human-readable name for the ApiEndpoint.
         public let displayName: String
-            /// HTTP verb.
+        /// HTTP verb.
         public let method: String
-            /// Path that handles this Api.
+        /// Path that handles this Api.
         public let path: String
-            /// The version ID of the Api this ApiEndpoint belongs to.
+        /// The version ID of the Api this ApiEndpoint belongs to.
         public let versionId: String
 
 
@@ -72,29 +72,29 @@ public struct Shared {
 
     /// An ApiEndpoint is a description of an Endpoint for an API.
     public struct ApiEndpoint {
-            /// The ID of this ApiEndpoint. This is a hash of the method and path.
+        /// The ID of this ApiEndpoint. This is a hash of the method and path.
         public let apiEndpointId: String
-            /// The ID of the Api this ApiEndpoint belongs to.
+        /// The ID of the Api this ApiEndpoint belongs to.
         public let apiId: String
-            /// Creation timestamp.
+        /// Creation timestamp.
         @DateTime
         public private(set) var createdAt: Date
-            /// A detailed description of the ApiEndpoint.
+        /// A detailed description of the ApiEndpoint.
         public let description: String
-            /// A human-readable name for the ApiEndpoint.
+        /// A human-readable name for the ApiEndpoint.
         public let displayName: String
-            /// HTTP verb.
+        /// HTTP verb.
         public let method: String
-            /// Path that handles this Api.
+        /// Path that handles this Api.
         public let path: String
-            /// Last update timestamp.
+        /// Last update timestamp.
         @DateTime
         public private(set) var updatedAt: Date
-            /// The version ID of the Api this ApiEndpoint belongs to.
+        /// The version ID of the Api this ApiEndpoint belongs to.
         public let versionId: String
-            /// The workspace ID this ApiEndpoint belongs to.
+        /// The workspace ID this ApiEndpoint belongs to.
         public let workspaceId: String
-            /// Determines if the endpoint was found in the OpenAPI spec associated with the parent Api.
+        /// Determines if the endpoint was found in the OpenAPI spec associated with the parent Api.
         public let matched: Bool?
 
 
@@ -144,13 +144,13 @@ public struct Shared {
 
     /// An Api is representation of a API (a collection of API Endpoints) within the Speakeasy Platform.
     public struct ApiInput {
-            /// The ID of this Api. This is a human-readable name (subject to change).
+        /// The ID of this Api. This is a human-readable name (subject to change).
         public let apiId: String
-            /// A detailed description of the Api.
+        /// A detailed description of the Api.
         public let description: String
-            /// The version ID of this Api. This is semantic version identifier.
+        /// The version ID of this Api. This is semantic version identifier.
         public let versionId: String
-            /// A set of values associated with a meta_data key. This field is only set on get requests.
+        /// A set of values associated with a meta_data key. This field is only set on get requests.
         public let metaData: [String: [String]]?
 
 
@@ -171,23 +171,23 @@ public struct Shared {
 
     /// An Api is representation of a API (a collection of API Endpoints) within the Speakeasy Platform.
     public struct Api {
-            /// The ID of this Api. This is a human-readable name (subject to change).
+        /// The ID of this Api. This is a human-readable name (subject to change).
         public let apiId: String
-            /// Creation timestamp.
+        /// Creation timestamp.
         @DateTime
         public private(set) var createdAt: Date
-            /// A detailed description of the Api.
+        /// A detailed description of the Api.
         public let description: String
-            /// Last update timestamp.
+        /// Last update timestamp.
         @DateTime
         public private(set) var updatedAt: Date
-            /// The version ID of this Api. This is semantic version identifier.
+        /// The version ID of this Api. This is semantic version identifier.
         public let versionId: String
-            /// The workspace ID this Api belongs to.
+        /// The workspace ID this Api belongs to.
         public let workspaceId: String
-            /// Determines if all the endpoints within the Api are found in the OpenAPI spec associated with the Api.
+        /// Determines if all the endpoints within the Api are found in the OpenAPI spec associated with the Api.
         public let matched: Bool?
-            /// A set of values associated with a meta_data key. This field is only set on get requests.
+        /// A set of values associated with a meta_data key. This field is only set on get requests.
         public let metaData: [String: [String]]?
 
 
@@ -229,13 +229,13 @@ public struct Shared {
 
     /// Filters are used to query requests.
     public struct Filters {
-            /// A list of filters to apply to the query.
+        /// A list of filters to apply to the query.
         public let filters: [Shared.Filter]
-            /// The maximum number of results to return.
+        /// The maximum number of results to return.
         public let limit: Int
-            /// The offset to start the query from.
+        /// The offset to start the query from.
         public let offset: Int
-            /// The operator to use when combining filters.
+        /// The operator to use when combining filters.
         public let `operator`: String
 
 
@@ -256,11 +256,11 @@ public struct Shared {
 
     /// A filter is a key-value pair that can be used to filter a list of requests.
     public struct Filter {
-            /// The key of the filter.
+        /// The key of the filter.
         public let key: String
-            /// The operator of the filter.
+        /// The operator of the filter.
         public let `operator`: String
-            /// The value of the filter.
+        /// The value of the filter.
         public let value: String
 
 
@@ -279,29 +279,29 @@ public struct Shared {
 
     /// A representation of an embed token granted for working with Speakeasy components.
     public struct EmbedToken {
-            /// Creation timestamp.
+        /// Creation timestamp.
         @DateTime
         public private(set) var createdAt: Date
-            /// The ID of the user that created this token.
+        /// The ID of the user that created this token.
         public let createdBy: String
-            /// A detailed description of the EmbedToken.
+        /// A detailed description of the EmbedToken.
         public let description: String
-            /// The time this token expires.
+        /// The time this token expires.
         @DateTime
         public private(set) var expiresAt: Date
-            /// The filters applied to this token.
+        /// The filters applied to this token.
         public let filters: String
-            /// The ID of this EmbedToken.
+        /// The ID of this EmbedToken.
         public let id: String
-            /// The workspace ID this token belongs to.
+        /// The workspace ID this token belongs to.
         public let workspaceId: String
-            /// The last time this token was used.
+        /// The last time this token was used.
         @DateTime
         public private(set) var lastUsed: Date?
-            /// The time this token was revoked.
+        /// The time this token was revoked.
         @DateTime
         public private(set) var revokedAt: Date?
-            /// The ID of the user that revoked this token.
+        /// The ID of the user that revoked this token.
         public let revokedBy: String?
 
 
@@ -334,9 +334,9 @@ public struct Shared {
 
     /// A set of keys and associated values, attached to a particular version of an Api.
     public struct VersionMetadataInput {
-            /// The key for this metadata.
+        /// The key for this metadata.
         public let metaKey: String
-            /// One of the values for this metadata.
+        /// One of the values for this metadata.
         public let metaValue: String
 
 
@@ -353,18 +353,18 @@ public struct Shared {
 
     /// A set of keys and associated values, attached to a particular version of an Api.
     public struct VersionMetadata {
-            /// The ID of the Api this Metadata belongs to.
+        /// The ID of the Api this Metadata belongs to.
         public let apiId: String
-            /// Creation timestamp.
+        /// Creation timestamp.
         @DateTime
         public private(set) var createdAt: Date
-            /// The key for this metadata.
+        /// The key for this metadata.
         public let metaKey: String
-            /// One of the values for this metadata.
+        /// One of the values for this metadata.
         public let metaValue: String
-            /// The version ID of the Api this Metadata belongs to.
+        /// The version ID of the Api this Metadata belongs to.
         public let versionId: String
-            /// The workspace ID this Metadata belongs to.
+        /// The workspace ID this Metadata belongs to.
         public let workspaceId: String
 
 
@@ -416,36 +416,36 @@ public struct Shared {
 
     /// A BoundedRequest is a request that has been logged by the Speakeasy without the contents of the request.
     public struct BoundedRequest {
-            /// The ID of the ApiEndpoint this request was made to.
+        /// The ID of the ApiEndpoint this request was made to.
         public let apiEndpointId: String
-            /// The ID of the Api this request was made to.
+        /// The ID of the Api this request was made to.
         public let apiId: String
-            /// Creation timestamp.
+        /// Creation timestamp.
         @DateTime
         public private(set) var createdAt: Date
-            /// The ID of the customer that made this request.
+        /// The ID of the customer that made this request.
         public let customerId: String
-            /// The latency of the request.
+        /// The latency of the request.
         public let latency: Int
-            /// HTTP verb.
+        /// HTTP verb.
         public let method: String
-            /// The path of the request.
+        /// The path of the request.
         public let path: String
-            /// The time the request finished.
+        /// The time the request finished.
         @DateTime
         public private(set) var requestFinishTime: Date
-            /// The ID of this request.
+        /// The ID of this request.
         public let requestId: String
-            /// The time the request was made.
+        /// The time the request was made.
         @DateTime
         public private(set) var requestStartTime: Date
-            /// The status code of the request.
+        /// The status code of the request.
         public let status: Int
-            /// The version ID of the Api this request was made to.
+        /// The version ID of the Api this request was made to.
         public let versionId: String
-            /// The workspace ID this request was made to.
+        /// The workspace ID this request was made to.
         public let workspaceId: String
-            /// Metadata associated with this request
+        /// Metadata associated with this request
         public let metadata: [Shared.RequestMetadata]?
 
 
@@ -501,16 +501,16 @@ public struct Shared {
 
     /// An UnboundedRequest represents the HAR content capture by Speakeasy when logging a request.
     public struct UnboundedRequest {
-            /// Creation timestamp.
+        /// Creation timestamp.
         @DateTime
         public private(set) var createdAt: Date
-            /// The HAR content of the request.
+        /// The HAR content of the request.
         public let har: String
-            /// The size of the HAR content in bytes.
+        /// The size of the HAR content in bytes.
         public let harSizeBytes: Int
-            /// The ID of this request.
+        /// The ID of this request.
         public let requestId: String
-            /// The workspace ID this request was made to.
+        /// The workspace ID this request was made to.
         public let workspaceId: String
 
 
@@ -533,18 +533,18 @@ public struct Shared {
 
     /// A Schema represents an API schema for a particular Api and Version.
     public struct Schema {
-            /// The ID of the Api this Schema belongs to.
+        /// The ID of the Api this Schema belongs to.
         public let apiId: String
-            /// Creation timestamp.
+        /// Creation timestamp.
         @DateTime
         public private(set) var createdAt: Date
-            /// A detailed description of the Schema.
+        /// A detailed description of the Schema.
         public let description: String
-            /// An ID referencing this particular revision of the Schema.
+        /// An ID referencing this particular revision of the Schema.
         public let revisionId: String
-            /// The version ID of the Api this Schema belongs to.
+        /// The version ID of the Api this Schema belongs to.
         public let versionId: String
-            /// The workspace ID this Schema belongs to.
+        /// The workspace ID this Schema belongs to.
         public let workspaceId: String
 
 
@@ -569,9 +569,9 @@ public struct Shared {
 
     /// A model object
     public struct SchemaDiffValueChange {
-            /// Represents the previous value of the element.
+        /// Represents the previous value of the element.
         public let from: String
-            /// Represents the current value of the element.
+        /// Represents the current value of the element.
         public let to: String
 
 
@@ -588,11 +588,11 @@ public struct Shared {
 
     /// A SchemaDiff represents a diff of two Schemas.
     public struct SchemaDiff {
-            /// Holds every addition change in the diff.
+        /// Holds every addition change in the diff.
         public let additions: [String]
-            /// Holds every deletion change in the diff.
+        /// Holds every deletion change in the diff.
         public let deletions: [String]
-            /// Holds every modification change in the diff.
+        /// Holds every modification change in the diff.
         public let modifications: [String: Shared.SchemaDiffValueChange]
 
 

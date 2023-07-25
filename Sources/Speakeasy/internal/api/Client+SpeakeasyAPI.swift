@@ -3,6 +3,8 @@
 import Foundation
 
 extension Client: SpeakeasyAPI {
+    // MARK: - Root operations 
+    
     /// Validate the current api key.
     /// 
     /// - Returns: A ``Operations/ValidateApiKeyResponse`` object describing the result of the API operation
@@ -16,26 +18,34 @@ extension Client: SpeakeasyAPI {
         )
     }
 
+    // MARK: - Scoped API operations
+
     public var apiEndpoints: APIEndpointsAPI {
-        return self
+        return _APIEndpointsAPI(client: self)
     }
+
     public var apis: ApisAPI {
-        return self
+        return _ApisAPI(client: self)
     }
+
     public var embeds: EmbedsAPI {
-        return self
+        return _EmbedsAPI(client: self)
     }
+
     public var metadata: MetadataAPI {
-        return self
+        return _MetadataAPI(client: self)
     }
+
     public var plugins: PluginsAPI {
-        return self
+        return _PluginsAPI(client: self)
     }
+
     public var requests: RequestsAPI {
-        return self
+        return _RequestsAPI(client: self)
     }
+
     public var schemas: SchemasAPI {
-        return self
+        return _SchemasAPI(client: self)
     }
 }
 

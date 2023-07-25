@@ -3,71 +3,85 @@
 
 import Foundation
 
-extension Client: APIEndpointsAPI { 
+class _APIEndpointsAPI: APIEndpointsAPI {
+    private let client: Client
+
+    init(client: Client) {
+        self.client = client
+    }
+    
     public func deleteApiEndpoint(request: Operations.DeleteApiEndpointRequest) async throws -> Response<Operations.DeleteApiEndpointResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureDeleteApiEndpointRequest(with: configuration, request: request)
             },
             handleResponse: handleDeleteApiEndpointResponse
         )
     }
+    
     public func findApiEndpoint(request: Operations.FindApiEndpointRequest) async throws -> Response<Operations.FindApiEndpointResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureFindApiEndpointRequest(with: configuration, request: request)
             },
             handleResponse: handleFindApiEndpointResponse
         )
     }
+    
     public func generateOpenApiSpecForApiEndpoint(request: Operations.GenerateOpenApiSpecForApiEndpointRequest) async throws -> Response<Operations.GenerateOpenApiSpecForApiEndpointResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGenerateOpenApiSpecForApiEndpointRequest(with: configuration, request: request)
             },
             handleResponse: handleGenerateOpenApiSpecForApiEndpointResponse
         )
     }
+    
     public func generatePostmanCollectionForApiEndpoint(request: Operations.GeneratePostmanCollectionForApiEndpointRequest) async throws -> Response<Operations.GeneratePostmanCollectionForApiEndpointResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGeneratePostmanCollectionForApiEndpointRequest(with: configuration, request: request)
             },
             handleResponse: handleGeneratePostmanCollectionForApiEndpointResponse
         )
     }
+    
     public func getAllApiEndpoints(request: Operations.GetAllApiEndpointsRequest) async throws -> Response<Operations.GetAllApiEndpointsResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetAllApiEndpointsRequest(with: configuration, request: request)
             },
             handleResponse: handleGetAllApiEndpointsResponse
         )
     }
+    
     public func getAllForVersionApiEndpoints(request: Operations.GetAllForVersionApiEndpointsRequest) async throws -> Response<Operations.GetAllForVersionApiEndpointsResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetAllForVersionApiEndpointsRequest(with: configuration, request: request)
             },
             handleResponse: handleGetAllForVersionApiEndpointsResponse
         )
     }
+    
     public func getApiEndpoint(request: Operations.GetApiEndpointRequest) async throws -> Response<Operations.GetApiEndpointResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetApiEndpointRequest(with: configuration, request: request)
             },
             handleResponse: handleGetApiEndpointResponse
         )
     }
+    
     public func upsertApiEndpoint(request: Operations.UpsertApiEndpointRequest) async throws -> Response<Operations.UpsertApiEndpointResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureUpsertApiEndpointRequest(with: configuration, request: request)
             },
             handleResponse: handleUpsertApiEndpointResponse
         )
     }
+
 }
 
 // MARK: - Request Configuration

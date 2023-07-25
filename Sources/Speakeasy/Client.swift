@@ -19,12 +19,26 @@ import FoundationNetworking
 ///
 /// ### Request and response objects
 ///
-/// If an API operation has input parameters, the corresponding API methods take a `request` object, describing these parameters. The request object can either be a primitive value like a `String` or `[String]`, or a Swift `struct` describing the parameters.
+/// If an API operation has input parameters, the corresponding API method takes a `request` object, describing these parameters. The request object can either be a primitive value like a `String` or `[String]`, or a Swift `struct` describing the parameters.
 ///
-/// Each API method also returns a response object, which may also be a primitive or a Swift `struct`. In addition to any data returned by a given API operation, each response object contains information about the network request, including:
+/// Each API method also returns a ``Response`` object, which provides information about the result of making the API request. It is generic and parameterised by the resulting data — stored in the ``Response/data`` property — which is determined by each API operation.
+///
+/// The ``Response/data`` property defined by each API operation is an enum, and you can `switch` on this value to extract the corresponding value from the response. For example, the 'deleteApiEndpoint' operation returns a ``Operations/DeleteApiEndpointResponse`` value:
+///
+/// ```swift
+/// let response: Response<Operations.DeleteApiEndpointResponse> = ... // Response from API call
+/// switch response.data {
+/// case .error(let error):
+///     // Handle response
+/// case .empty:
+///     // Handle empty response
+/// }
+/// ```
+///
+/// In addition to any data returned by a given API operation, each ``Response`` value contains information about the network request, including:
 /// - The `contentType` returned by the server.
 /// - The `statusCode` representing the HTTP status code returned by making the request
-/// - A `rawResponse` value which is the raw [HTTPURLResponse](https://developer.apple.com/documentation/foundation/httpurlresponse) returned from making the underlying network request.
+/// - A `httpResponse` value which is the raw [HTTPURLResponse](https://developer.apple.com/documentation/foundation/httpurlresponse) returned from making the underlying network request.
 ///
 /// These values can be used to debug and/or react to responses returned from executing a given API operation.
 ///

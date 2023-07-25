@@ -1,4 +1,6 @@
 <!-- Start SDK Example Usage -->
+
+
 ```swift
 import Foundation
 import Speakeasy
@@ -32,10 +34,13 @@ let response = try await client.apis.getApis(
 switch response.data {
 case .apis(let apis):
     // Handle response
+    break
 case .error(let error):
     // Handle response
+    break
 case .empty:
     // Handle empty response
+    break
 }
 
 ```

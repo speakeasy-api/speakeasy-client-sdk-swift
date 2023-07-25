@@ -3,31 +3,40 @@
 
 import Foundation
 
-extension Client: MetadataAPI { 
+class _MetadataAPI: MetadataAPI {
+    private let client: Client
+
+    init(client: Client) {
+        self.client = client
+    }
+    
     public func deleteVersionMetadata(request: Operations.DeleteVersionMetadataRequest) async throws -> Response<Operations.DeleteVersionMetadataResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureDeleteVersionMetadataRequest(with: configuration, request: request)
             },
             handleResponse: handleDeleteVersionMetadataResponse
         )
     }
+    
     public func getVersionMetadata(request: Operations.GetVersionMetadataRequest) async throws -> Response<Operations.GetVersionMetadataResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetVersionMetadataRequest(with: configuration, request: request)
             },
             handleResponse: handleGetVersionMetadataResponse
         )
     }
+    
     public func insertVersionMetadata(request: Operations.InsertVersionMetadataRequest) async throws -> Response<Operations.InsertVersionMetadataResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureInsertVersionMetadataRequest(with: configuration, request: request)
             },
             handleResponse: handleInsertVersionMetadataResponse
         )
     }
+
 }
 
 // MARK: - Request Configuration

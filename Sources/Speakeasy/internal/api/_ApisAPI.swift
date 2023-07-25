@@ -3,55 +3,67 @@
 
 import Foundation
 
-extension Client: ApisAPI { 
+class _ApisAPI: ApisAPI {
+    private let client: Client
+
+    init(client: Client) {
+        self.client = client
+    }
+    
     public func deleteApi(request: Operations.DeleteApiRequest) async throws -> Response<Operations.DeleteApiResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureDeleteApiRequest(with: configuration, request: request)
             },
             handleResponse: handleDeleteApiResponse
         )
     }
+    
     public func generateOpenApiSpec(request: Operations.GenerateOpenApiSpecRequest) async throws -> Response<Operations.GenerateOpenApiSpecResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGenerateOpenApiSpecRequest(with: configuration, request: request)
             },
             handleResponse: handleGenerateOpenApiSpecResponse
         )
     }
+    
     public func generatePostmanCollection(request: Operations.GeneratePostmanCollectionRequest) async throws -> Response<Operations.GeneratePostmanCollectionResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGeneratePostmanCollectionRequest(with: configuration, request: request)
             },
             handleResponse: handleGeneratePostmanCollectionResponse
         )
     }
+    
     public func getAllApiVersions(request: Operations.GetAllApiVersionsRequest) async throws -> Response<Operations.GetAllApiVersionsResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetAllApiVersionsRequest(with: configuration, request: request)
             },
             handleResponse: handleGetAllApiVersionsResponse
         )
     }
+    
     public func getApis(request: Operations.GetApisRequest) async throws -> Response<Operations.GetApisResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetApisRequest(with: configuration, request: request)
             },
             handleResponse: handleGetApisResponse
         )
     }
+    
     public func upsertApi(request: Operations.UpsertApiRequest) async throws -> Response<Operations.UpsertApiResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureUpsertApiRequest(with: configuration, request: request)
             },
             handleResponse: handleUpsertApiResponse
         )
     }
+
 }
 
 // MARK: - Request Configuration

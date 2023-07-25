@@ -1,10 +1,10 @@
-Sources/Speakeasy/internal/api/Client+APIEndpointsAPI.swift
-Sources/Speakeasy/internal/api/Client+ApisAPI.swift
-Sources/Speakeasy/internal/api/Client+EmbedsAPI.swift
-Sources/Speakeasy/internal/api/Client+MetadataAPI.swift
-Sources/Speakeasy/internal/api/Client+PluginsAPI.swift
-Sources/Speakeasy/internal/api/Client+RequestsAPI.swift
-Sources/Speakeasy/internal/api/Client+SchemasAPI.swift
+Sources/Speakeasy/internal/api/_APIEndpointsAPI.swift
+Sources/Speakeasy/internal/api/_ApisAPI.swift
+Sources/Speakeasy/internal/api/_EmbedsAPI.swift
+Sources/Speakeasy/internal/api/_MetadataAPI.swift
+Sources/Speakeasy/internal/api/_PluginsAPI.swift
+Sources/Speakeasy/internal/api/_RequestsAPI.swift
+Sources/Speakeasy/internal/api/_SchemasAPI.swift
 Sources/Speakeasy/configuration/GlobalServer.swift
 Sources/Speakeasy/Client.swift
 Package.swift

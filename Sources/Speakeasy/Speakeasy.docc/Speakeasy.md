@@ -4,6 +4,8 @@ Speakeasy API: The Speakeasy API allows teams to manage common operations with t
 
 `Speakeasy` is a Swift library which provides functionality for making requests to the API using a modern, easy-to-use Swift API:
 
+
+
 ```swift
 import Foundation
 import Speakeasy
@@ -41,10 +43,13 @@ let response = try await client.apis.getApis(
 switch response.data {
 case .apis(let apis):
     // Handle response
+    break
 case .error(let error):
     // Handle response
+    break
 case .empty:
     // Handle empty response
+    break
 }
 
 ```
@@ -62,6 +67,7 @@ case .empty:
 
 - ``Client``
 - ``Shared/Security``
+- ``Response``
 - ``SpeakeasyError``
 
 ### API operations

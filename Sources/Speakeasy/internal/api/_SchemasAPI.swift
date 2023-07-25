@@ -3,71 +3,85 @@
 
 import Foundation
 
-extension Client: SchemasAPI { 
+class _SchemasAPI: SchemasAPI {
+    private let client: Client
+
+    init(client: Client) {
+        self.client = client
+    }
+    
     public func deleteSchema(request: Operations.DeleteSchemaRequest) async throws -> Response<Operations.DeleteSchemaResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureDeleteSchemaRequest(with: configuration, request: request)
             },
             handleResponse: handleDeleteSchemaResponse
         )
     }
+    
     public func downloadSchema(request: Operations.DownloadSchemaRequest) async throws -> Response<Operations.DownloadSchemaResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureDownloadSchemaRequest(with: configuration, request: request)
             },
             handleResponse: handleDownloadSchemaResponse
         )
     }
+    
     public func downloadSchemaRevision(request: Operations.DownloadSchemaRevisionRequest) async throws -> Response<Operations.DownloadSchemaRevisionResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureDownloadSchemaRevisionRequest(with: configuration, request: request)
             },
             handleResponse: handleDownloadSchemaRevisionResponse
         )
     }
+    
     public func getSchema(request: Operations.GetSchemaRequest) async throws -> Response<Operations.GetSchemaResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemaRequest(with: configuration, request: request)
             },
             handleResponse: handleGetSchemaResponse
         )
     }
+    
     public func getSchemaDiff(request: Operations.GetSchemaDiffRequest) async throws -> Response<Operations.GetSchemaDiffResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemaDiffRequest(with: configuration, request: request)
             },
             handleResponse: handleGetSchemaDiffResponse
         )
     }
+    
     public func getSchemaRevision(request: Operations.GetSchemaRevisionRequest) async throws -> Response<Operations.GetSchemaRevisionResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemaRevisionRequest(with: configuration, request: request)
             },
             handleResponse: handleGetSchemaRevisionResponse
         )
     }
+    
     public func getSchemas(request: Operations.GetSchemasRequest) async throws -> Response<Operations.GetSchemasResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetSchemasRequest(with: configuration, request: request)
             },
             handleResponse: handleGetSchemasResponse
         )
     }
+    
     public func registerSchema(request: Operations.RegisterSchemaRequest) async throws -> Response<Operations.RegisterSchemaResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureRegisterSchemaRequest(with: configuration, request: request)
             },
             handleResponse: handleRegisterSchemaResponse
         )
     }
+
 }
 
 // MARK: - Request Configuration

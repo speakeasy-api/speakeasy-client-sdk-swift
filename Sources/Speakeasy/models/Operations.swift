@@ -34,11 +34,11 @@ public struct Operations {
 
     /// A request model
     public struct DeleteApiEndpointRequest: APIValue {
-            /// The ID of the ApiEndpoint to delete.
+        /// The ID of the ApiEndpoint to delete.
         public let apiEndpointID: String
-            /// The ID of the Api the ApiEndpoint belongs to.
+        /// The ID of the Api the ApiEndpoint belongs to.
         public let apiID: String
-            /// The version ID of the Api the ApiEndpoint belongs to.
+        /// The version ID of the Api the ApiEndpoint belongs to.
         public let versionID: String
 
 
@@ -78,11 +78,11 @@ public struct Operations {
 
     /// A request model
     public struct FindApiEndpointRequest: APIValue {
-            /// The ID of the Api the ApiEndpoint belongs to.
+        /// The ID of the Api the ApiEndpoint belongs to.
         public let apiID: String
-            /// The displayName of the ApiEndpoint to find (set by operationId from OpenAPI schema).
+        /// The displayName of the ApiEndpoint to find (set by operationId from OpenAPI schema).
         public let displayName: String
-            /// The version ID of the Api the ApiEndpoint belongs to.
+        /// The version ID of the Api the ApiEndpoint belongs to.
         public let versionID: String
 
 
@@ -130,11 +130,11 @@ public struct Operations {
 
     /// A request model
     public struct GenerateOpenApiSpecForApiEndpointRequest: APIValue {
-            /// The ID of the ApiEndpoint to generate an OpenAPI specification for.
+        /// The ID of the ApiEndpoint to generate an OpenAPI specification for.
         public let apiEndpointID: String
-            /// The ID of the Api to generate an OpenAPI specification for.
+        /// The ID of the Api to generate an OpenAPI specification for.
         public let apiID: String
-            /// The version ID of the Api to generate an OpenAPI specification for.
+        /// The version ID of the Api to generate an OpenAPI specification for.
         public let versionID: String
 
 
@@ -182,11 +182,11 @@ public struct Operations {
 
     /// A request model
     public struct GeneratePostmanCollectionForApiEndpointRequest: APIValue {
-            /// The ID of the ApiEndpoint to generate a Postman collection for.
+        /// The ID of the ApiEndpoint to generate a Postman collection for.
         public let apiEndpointID: String
-            /// The ID of the Api to generate a Postman collection for.
+        /// The ID of the Api to generate a Postman collection for.
         public let apiID: String
-            /// The version ID of the Api to generate a Postman collection for.
+        /// The version ID of the Api to generate a Postman collection for.
         public let versionID: String
 
 
@@ -234,7 +234,7 @@ public struct Operations {
 
     /// A request model
     public struct GetAllApiEndpointsRequest: APIValue {
-            /// The ID of the Api to retrieve ApiEndpoints for.
+        /// The ID of the Api to retrieve ApiEndpoints for.
         public let apiID: String
 
 
@@ -278,9 +278,9 @@ public struct Operations {
 
     /// A request model
     public struct GetAllForVersionApiEndpointsRequest: APIValue {
-            /// The ID of the Api to retrieve ApiEndpoints for.
+        /// The ID of the Api to retrieve ApiEndpoints for.
         public let apiID: String
-            /// The version ID of the Api to retrieve ApiEndpoints for.
+        /// The version ID of the Api to retrieve ApiEndpoints for.
         public let versionID: String
 
 
@@ -326,11 +326,11 @@ public struct Operations {
 
     /// A request model
     public struct GetApiEndpointRequest: APIValue {
-            /// The ID of the ApiEndpoint to retrieve.
+        /// The ID of the ApiEndpoint to retrieve.
         public let apiEndpointID: String
-            /// The ID of the Api the ApiEndpoint belongs to.
+        /// The ID of the Api the ApiEndpoint belongs to.
         public let apiID: String
-            /// The version ID of the Api the ApiEndpoint belongs to.
+        /// The version ID of the Api the ApiEndpoint belongs to.
         public let versionID: String
 
 
@@ -378,13 +378,13 @@ public struct Operations {
 
     /// A request model
     public struct UpsertApiEndpointRequest: APIValue {
-            /// The ID of the ApiEndpoint to upsert.
+        /// The ID of the ApiEndpoint to upsert.
         public let apiEndpointID: String
-            /// A JSON representation of the ApiEndpoint to upsert.
+        /// A JSON representation of the ApiEndpoint to upsert.
         public let apiEndpointInput: Shared.ApiEndpointInput
-            /// The ID of the Api the ApiEndpoint belongs to.
+        /// The ID of the Api the ApiEndpoint belongs to.
         public let apiID: String
-            /// The version ID of the Api the ApiEndpoint belongs to.
+        /// The version ID of the Api the ApiEndpoint belongs to.
         public let versionID: String
 
 
@@ -434,9 +434,9 @@ public struct Operations {
 
     /// A request model
     public struct DeleteApiRequest: APIValue {
-            /// The ID of the Api to delete.
+        /// The ID of the Api to delete.
         public let apiID: String
-            /// The version ID of the Api to delete.
+        /// The version ID of the Api to delete.
         public let versionID: String
 
 
@@ -474,9 +474,9 @@ public struct Operations {
 
     /// A request model
     public struct GenerateOpenApiSpecRequest: APIValue {
-            /// The ID of the Api to generate an OpenAPI specification for.
+        /// The ID of the Api to generate an OpenAPI specification for.
         public let apiID: String
-            /// The version ID of the Api to generate an OpenAPI specification for.
+        /// The version ID of the Api to generate an OpenAPI specification for.
         public let versionID: String
 
 
@@ -522,9 +522,9 @@ public struct Operations {
 
     /// A request model
     public struct GeneratePostmanCollectionRequest: APIValue {
-            /// The ID of the Api to generate a Postman collection for.
+        /// The ID of the Api to generate a Postman collection for.
         public let apiID: String
-            /// The version ID of the Api to generate a Postman collection for.
+        /// The version ID of the Api to generate a Postman collection for.
         public let versionID: String
 
 
@@ -570,7 +570,7 @@ public struct Operations {
 
     /// Configuration for filter operations
     public struct GetAllApiVersionsOp: APIValue {
-            /// Whether to AND or OR the filters
+        /// Whether to AND or OR the filters
         public let and: Bool
 
 
@@ -585,11 +585,11 @@ public struct Operations {
 
     /// A request model
     public struct GetAllApiVersionsRequest: APIValue {
-            /// The ID of the Api to retrieve.
+        /// The ID of the Api to retrieve.
         public let apiID: String
-            /// Metadata to filter Apis on
+        /// Metadata to filter Apis on
         public let metadata: [String: [String]]?
-            /// Configuration for filter operations
+        /// Configuration for filter operations
         public let op: Operations.GetAllApiVersionsOp?
 
 
@@ -637,7 +637,7 @@ public struct Operations {
 
     /// Configuration for filter operations
     public struct GetApisOp: APIValue {
-            /// Whether to AND or OR the filters
+        /// Whether to AND or OR the filters
         public let and: Bool
 
 
@@ -652,9 +652,9 @@ public struct Operations {
 
     /// A request model
     public struct GetApisRequest: APIValue {
-            /// Metadata to filter Apis on
+        /// Metadata to filter Apis on
         public let metadata: [String: [String]]?
-            /// Configuration for filter operations
+        /// Configuration for filter operations
         public let op: Operations.GetApisOp?
 
 
@@ -700,9 +700,9 @@ public struct Operations {
 
     /// A request model
     public struct UpsertApiRequest: APIValue {
-            /// The ID of the Api to upsert.
+        /// The ID of the Api to upsert.
         public let apiID: String
-            /// A JSON representation of the Api to upsert
+        /// A JSON representation of the Api to upsert
         public let apiInput: Shared.ApiInput
 
 
@@ -748,11 +748,11 @@ public struct Operations {
 
     /// A request model
     public struct GetEmbedAccessTokenRequest: APIValue {
-            /// The description of the embed access token.
+        /// The description of the embed access token.
         public let description: String?
-            /// The duration (in minutes) of the embed access token.
+        /// The duration (in minutes) of the embed access token.
         public let duration: Int?
-            /// The filter to apply to the query.
+        /// The filter to apply to the query.
         public let filters: Shared.Filters?
 
 
@@ -829,7 +829,7 @@ public struct Operations {
 
     /// A request model
     public struct RevokeEmbedAccessTokenRequest: APIValue {
-            /// The ID of the EmbedToken to revoke.
+        /// The ID of the EmbedToken to revoke.
         public let tokenID: String
 
 
@@ -865,13 +865,13 @@ public struct Operations {
 
     /// A request model
     public struct DeleteVersionMetadataRequest: APIValue {
-            /// The ID of the Api to delete metadata for.
+        /// The ID of the Api to delete metadata for.
         public let apiID: String
-            /// The key of the metadata to delete.
+        /// The key of the metadata to delete.
         public let metaKey: String
-            /// The value of the metadata to delete.
+        /// The value of the metadata to delete.
         public let metaValue: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -913,9 +913,9 @@ public struct Operations {
 
     /// A request model
     public struct GetVersionMetadataRequest: APIValue {
-            /// The ID of the Api to retrieve metadata for.
+        /// The ID of the Api to retrieve metadata for.
         public let apiID: String
-            /// The version ID of the Api to retrieve metadata for.
+        /// The version ID of the Api to retrieve metadata for.
         public let versionID: String
 
 
@@ -961,11 +961,11 @@ public struct Operations {
 
     /// A request model
     public struct InsertVersionMetadataRequest: APIValue {
-            /// The ID of the Api to insert metadata for.
+        /// The ID of the Api to insert metadata for.
         public let apiID: String
-            /// The version ID of the Api to insert metadata for.
+        /// The version ID of the Api to insert metadata for.
         public let versionID: String
-            /// A JSON representation of the metadata to insert.
+        /// A JSON representation of the metadata to insert.
         public let versionMetadataInput: Shared.VersionMetadataInput
 
 
@@ -1042,9 +1042,9 @@ public struct Operations {
 
     /// A request model
     public struct RunPluginRequest: APIValue {
-            /// The ID of the plugin to run.
+        /// The ID of the plugin to run.
         public let pluginID: String
-            /// The filter to apply to the query.
+        /// The filter to apply to the query.
         public let filters: Shared.Filters?
 
 
@@ -1119,7 +1119,7 @@ public struct Operations {
 
     /// A request model
     public struct GenerateRequestPostmanCollectionRequest: APIValue {
-            /// The ID of the request to retrieve.
+        /// The ID of the request to retrieve.
         public let requestID: String
 
 
@@ -1163,7 +1163,7 @@ public struct Operations {
 
     /// A request model
     public struct GetRequestFromEventLogRequest: APIValue {
-            /// The ID of the request to retrieve.
+        /// The ID of the request to retrieve.
         public let requestID: String
 
 
@@ -1207,7 +1207,7 @@ public struct Operations {
 
     /// A request model
     public struct QueryEventLogRequest: APIValue {
-            /// The filter to apply to the query.
+        /// The filter to apply to the query.
         public let filters: Shared.Filters?
 
 
@@ -1251,11 +1251,11 @@ public struct Operations {
 
     /// A request model
     public struct DeleteSchemaRequest: APIValue {
-            /// The ID of the Api to delete schemas for.
+        /// The ID of the Api to delete schemas for.
         public let apiID: String
-            /// The revision ID of the schema to delete.
+        /// The revision ID of the schema to delete.
         public let revisionID: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -1295,9 +1295,9 @@ public struct Operations {
 
     /// A request model
     public struct DownloadSchemaRequest: APIValue {
-            /// The ID of the Api to download the schema for.
+        /// The ID of the Api to download the schema for.
         public let apiID: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -1343,11 +1343,11 @@ public struct Operations {
 
     /// A request model
     public struct DownloadSchemaRevisionRequest: APIValue {
-            /// The ID of the Api to retrieve schemas for.
+        /// The ID of the Api to retrieve schemas for.
         public let apiID: String
-            /// The revision ID of the schema to retrieve.
+        /// The revision ID of the schema to retrieve.
         public let revisionID: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -1395,9 +1395,9 @@ public struct Operations {
 
     /// A request model
     public struct GetSchemaRequest: APIValue {
-            /// The ID of the Api to get the schema for.
+        /// The ID of the Api to get the schema for.
         public let apiID: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -1443,13 +1443,13 @@ public struct Operations {
 
     /// A request model
     public struct GetSchemaDiffRequest: APIValue {
-            /// The ID of the Api to retrieve schemas for.
+        /// The ID of the Api to retrieve schemas for.
         public let apiID: String
-            /// The base revision ID of the schema to retrieve.
+        /// The base revision ID of the schema to retrieve.
         public let baseRevisionID: String
-            /// The target revision ID of the schema to retrieve.
+        /// The target revision ID of the schema to retrieve.
         public let targetRevisionID: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -1499,11 +1499,11 @@ public struct Operations {
 
     /// A request model
     public struct GetSchemaRevisionRequest: APIValue {
-            /// The ID of the Api to retrieve schemas for.
+        /// The ID of the Api to retrieve schemas for.
         public let apiID: String
-            /// The revision ID of the schema to retrieve.
+        /// The revision ID of the schema to retrieve.
         public let revisionID: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -1551,9 +1551,9 @@ public struct Operations {
 
     /// A request model
     public struct GetSchemasRequest: APIValue {
-            /// The ID of the Api to retrieve schemas for.
+        /// The ID of the Api to retrieve schemas for.
         public let apiID: String
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 
@@ -1627,11 +1627,11 @@ public struct Operations {
 
     /// A request model
     public struct RegisterSchemaRequest: APIValue {
-            /// The ID of the Api to get the schema for.
+        /// The ID of the Api to get the schema for.
         public let apiID: String
-            /// The schema file to upload provided as a multipart/form-data file segment.
+        /// The schema file to upload provided as a multipart/form-data file segment.
         public let requestBody: Operations.RegisterSchemaRequestBody
-            /// The version ID of the Api to delete metadata for.
+        /// The version ID of the Api to delete metadata for.
         public let versionID: String
 
 

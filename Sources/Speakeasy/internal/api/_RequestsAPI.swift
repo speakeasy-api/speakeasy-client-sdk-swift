@@ -3,31 +3,40 @@
 
 import Foundation
 
-extension Client: RequestsAPI { 
+class _RequestsAPI: RequestsAPI {
+    private let client: Client
+
+    init(client: Client) {
+        self.client = client
+    }
+    
     public func generateRequestPostmanCollection(request: Operations.GenerateRequestPostmanCollectionRequest) async throws -> Response<Operations.GenerateRequestPostmanCollectionResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGenerateRequestPostmanCollectionRequest(with: configuration, request: request)
             },
             handleResponse: handleGenerateRequestPostmanCollectionResponse
         )
     }
+    
     public func getRequestFromEventLog(request: Operations.GetRequestFromEventLogRequest) async throws -> Response<Operations.GetRequestFromEventLogResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetRequestFromEventLogRequest(with: configuration, request: request)
             },
             handleResponse: handleGetRequestFromEventLogResponse
         )
     }
+    
     public func queryEventLog(request: Operations.QueryEventLogRequest) async throws -> Response<Operations.QueryEventLogResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureQueryEventLogRequest(with: configuration, request: request)
             },
             handleResponse: handleQueryEventLogResponse
         )
     }
+
 }
 
 // MARK: - Request Configuration

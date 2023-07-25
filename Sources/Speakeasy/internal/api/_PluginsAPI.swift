@@ -3,31 +3,40 @@
 
 import Foundation
 
-extension Client: PluginsAPI { 
+class _PluginsAPI: PluginsAPI {
+    private let client: Client
+
+    init(client: Client) {
+        self.client = client
+    }
+    
     public func getPlugins() async throws -> Response<Operations.GetPluginsResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetPluginsRequest(with: configuration)
             },
             handleResponse: handleGetPluginsResponse
         )
     }
+    
     public func runPlugin(request: Operations.RunPluginRequest) async throws -> Response<Operations.RunPluginResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureRunPluginRequest(with: configuration, request: request)
             },
             handleResponse: handleRunPluginResponse
         )
     }
+    
     public func upsertPlugin(request: Shared.Plugin) async throws -> Response<Operations.UpsertPluginResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureUpsertPluginRequest(with: configuration, request: request)
             },
             handleResponse: handleUpsertPluginResponse
         )
     }
+
 }
 
 // MARK: - Request Configuration

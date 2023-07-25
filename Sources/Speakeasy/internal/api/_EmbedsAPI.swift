@@ -3,31 +3,40 @@
 
 import Foundation
 
-extension Client: EmbedsAPI { 
+class _EmbedsAPI: EmbedsAPI {
+    private let client: Client
+
+    init(client: Client) {
+        self.client = client
+    }
+    
     public func getEmbedAccessToken(request: Operations.GetEmbedAccessTokenRequest) async throws -> Response<Operations.GetEmbedAccessTokenResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetEmbedAccessTokenRequest(with: configuration, request: request)
             },
             handleResponse: handleGetEmbedAccessTokenResponse
         )
     }
+    
     public func getValidEmbedAccessTokens() async throws -> Response<Operations.GetValidEmbedAccessTokensResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureGetValidEmbedAccessTokensRequest(with: configuration)
             },
             handleResponse: handleGetValidEmbedAccessTokensResponse
         )
     }
+    
     public func revokeEmbedAccessToken(request: Operations.RevokeEmbedAccessTokenRequest) async throws -> Response<Operations.RevokeEmbedAccessTokenResponse> {
-        return try await makeRequest(
+        return try await client.makeRequest(
             configureRequest: { configuration in
                 try configureRevokeEmbedAccessTokenRequest(with: configuration, request: request)
             },
             handleResponse: handleRevokeEmbedAccessTokenResponse
         )
     }
+
 }
 
 // MARK: - Request Configuration
